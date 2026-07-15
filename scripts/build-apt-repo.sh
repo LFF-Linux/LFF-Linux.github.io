@@ -17,20 +17,18 @@ base="dists/${suite}/${component}"
 
 mkdir -p "${base}/binary-all" "${base}/binary-amd64" "${base}/binary-arm64"
 
-stage_root="$(mktemp -d)"
-trap 'rm -rf "$stage_root"' EXIT
-
-mkdir -p "${stage_root}/binary-all" "${stage_root}/binary-amd64" "${stage_root}/binary-arm64"
-
-echo "Selecting newest package per package/architecture..."
-python3 - "$repo_root" "$stage_root" <<'PY'
+echo "Selecting newest packages and cleaning up old versions..."
+python3 - "$repo_root" <<'PY'
 import subprocess
 import sys
 from pathlib import Path
 
 repo_root = Path(sys.argv[1])
-stage_root = Path(sys.argv[2])
 pool = repo_root / "pool" / "main"
+
+if not pool.exists():
+    print(f"Warning: Pool directory {pool} does not exist.")
+    sys.exit(0)
 
 def deb_fields(path: Path):
     out = subprocess.check_output(
@@ -51,12 +49,13 @@ def ver_gt(a: str, b: str) -> bool:
         stderr=subprocess.DEVNULL,
     ).returncode == 0
 
-# Keep highest version for each (Package, Architecture)
 best = {}
+all_debs = []
 
 for deb in sorted(pool.glob("*.deb")):
     try:
         pkg, ver, arch = deb_fields(deb)
+        all_debs.append(deb)
     except Exception:
         continue
 
@@ -65,21 +64,15 @@ for deb in sorted(pool.glob("*.deb")):
     if current is None or ver_gt(ver, current[0]):
         best[key] = (ver, deb)
 
-# Copy only winners into staged dirs
-for (pkg, arch), (ver, deb) in sorted(best.items()):
-    if arch == "all":
-        dest_dir = stage_root / "binary-all"
-    elif arch == "amd64":
-        dest_dir = stage_root / "binary-amd64"
-    elif arch == "arm64":
-        dest_dir = stage_root / "binary-arm64"
-    else:
-        # Ignore any other architectures for this repo
-        continue
+best_paths = {deb for ver, deb in best.values()}
 
-    dest = dest_dir / deb.name
-    dest.write_bytes(deb.read_bytes())
-    print(f"keep {pkg} {ver} {arch}: {deb.name}")
+# THE FIX: Physically delete older .deb files from the pool directory
+for deb in all_debs:
+    if deb not in best_paths:
+        print(f"Removing old package: {deb.name}")
+        deb.unlink()
+    else:
+        print(f"Keeping newest package: {deb.name}")
 PY
 
 cat > "dists/${suite}/release.conf" <<'EOF'
@@ -92,13 +85,13 @@ APT::FTPArchive::Release::Components "main";
 APT::FTPArchive::Release::Description "LFF Linux Package Repository";
 EOF
 
-dpkg-scanpackages --arch all "${stage_root}/binary-all" /dev/null > "${base}/binary-all/Packages"
-dpkg-scanpackages --arch amd64 "${stage_root}/binary-amd64" /dev/null > "${base}/binary-amd64/Packages"
-dpkg-scanpackages --arch arm64 "${stage_root}/binary-arm64" /dev/null > "${base}/binary-arm64/Packages"
+# THE FIX: Scan directly from pool/main so the Filename paths are correctly mapped
+dpkg-scanpackages --arch all pool/main /dev/null > "${base}/binary-all/Packages"
+dpkg-scanpackages --arch amd64 pool/main /dev/null > "${base}/binary-amd64/Packages"
+dpkg-scanpackages --arch arm64 pool/main /dev/null > "${base}/binary-arm64/Packages"
 
 gzip -kf "${base}/binary-all/Packages"
 gzip -kf "${base}/binary-amd64/Packages"
-gzip -kf "${base}/binary-amd64/Packages" 2>/dev/null || true
 gzip -kf "${base}/binary-arm64/Packages"
 
 apt-ftparchive -c "dists/${suite}/release.conf" release "dists/${suite}" > "dists/${suite}/Release"
