@@ -1,261 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>LFF Linux Package Repository</title>
+
 <style>
-    :root {
-        --bg: #ffffff;
-        --text: #1f2328;
-        --muted: #57606a;
-        --border: #d0d7de;
-        --panel: #f6f8fa;
-        --header: #0f172a;
-        --headerText: #ffffff;
-        --accent: #1f4b99;
-        --codeBg: #f3f4f6;
-        --tableHead: #eef2f7;
-    }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #222;
+    margin: 0;
+}
 
-    * { box-sizing: border-box; }
+header {
+    background: #222;
+    color: white;
+    padding: 25px;
+}
 
-    body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.5;
-    }
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
 
-    header {
-        background: var(--header);
-        color: var(--headerText);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
+header p {
+    margin-top: 8px;
+    color: #ccc;
+}
 
-    .topbar {
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 28px 24px 24px;
-    }
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px;
+}
 
-    h1 {
-        margin: 0;
-        font-size: 30px;
-        font-weight: 700;
-        letter-spacing: 0.2px;
-    }
+.box {
+    border: 1px solid #ccc;
+    background: #fafafa;
+    padding: 20px;
+    margin-bottom: 25px;
+}
 
-    .subtitle {
-        margin: 8px 0 0;
-        color: rgba(255,255,255,0.75);
-        font-size: 15px;
-    }
+h2 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
 
-    main {
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 24px;
-    }
+code {
+    background: #eee;
+    padding: 3px 6px;
+    border-radius: 3px;
+}
 
-    .panel {
-        border: 1px solid var(--border);
-        background: #fff;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
+pre {
+    background: #222;
+    color: #eee;
+    padding: 15px;
+    overflow-x: auto;
+}
 
-    .panel.alt {
-        background: var(--panel);
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-    h2 {
-        margin: 0 0 12px;
-        font-size: 20px;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 8px;
-    }
+th {
+    background: #333;
+    color: white;
+    text-align: left;
+    padding: 10px;
+}
 
-    p {
-        margin: 0 0 12px;
-    }
+td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
 
-    .install-box {
-        border: 1px solid var(--border);
-        background: #fff;
-        border-radius: 8px;
-        padding: 16px;
-    }
+tr:hover {
+    background: #f3f3f3;
+}
 
-    .install-line {
-        display: block;
-        width: 100%;
-        overflow-x: auto;
-        background: var(--codeBg);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        padding: 14px 16px;
-        font-family: "Courier New", Courier, monospace;
-        font-size: 14px;
-        margin: 10px 0 14px;
-        white-space: nowrap;
-    }
-
-    .small {
-        color: var(--muted);
-        font-size: 14px;
-    }
-
-    .meta-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 14px;
-        margin-top: 8px;
-    }
-
-    .meta-item {
-        background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 14px;
-    }
-
-    .meta-label {
-        color: var(--muted);
-        font-size: 13px;
-        margin-bottom: 4px;
-    }
-
-    .meta-value {
-        font-size: 15px;
-        font-weight: 700;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 8px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-    }
-
-    thead th {
-        background: var(--tableHead);
-        text-align: left;
-        padding: 12px;
-        border-bottom: 1px solid var(--border);
-        font-size: 14px;
-    }
-
-    tbody td {
-        padding: 12px;
-        border-bottom: 1px solid var(--border);
-        vertical-align: top;
-        font-size: 14px;
-    }
-
-    tbody tr:hover {
-        background: #fafbfc;
-    }
-
-    .pkg-name {
-        font-weight: 700;
-        color: var(--accent);
-    }
-
-    .footer {
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 18px 24px 28px;
-        color: var(--muted);
-        font-size: 13px;
-    }
-
-    code.inline {
-        background: var(--codeBg);
-        border: 1px solid var(--border);
-        border-radius: 4px;
-        padding: 2px 6px;
-        font-family: "Courier New", Courier, monospace;
-        font-size: 13px;
-    }
-
-    @media (max-width: 860px) {
-        .meta-grid {
-            grid-template-columns: 1fr;
-        }
-
-        main {
-            padding: 16px;
-        }
-
-        .topbar {
-            padding: 22px 16px 18px;
-        }
-    }
+.footer {
+    border-top: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    color: #777;
+}
 </style>
+
 </head>
+
 <body>
+
 <header>
-    <div class="topbar">
-        <h1>LFF Linux Package Repository</h1>
-        <p class="subtitle">Official package archive for LFF Linux</p>
-    </div>
+    <h1>LFF Linux Package Repository</h1>
+    <p>Official package repository for LFF Linux</p>
 </header>
 
-<main>
-    <section class="panel alt">
-        <h2>Add this repository</h2>
-        <p>Run this one-liner on a Debian or Ubuntu system:</p>
-        <div class="install-box">
-            <div class="install-line">curl -fsSL https://lff-linux.github.io/addrepo.sh | sudo bash</div>
-            <p class="small">The script checks for <code class="inline">apt-get</code>, installs the repository key, and adds the signed APT source entry.</p>
-        </div>
-    </section>
+<div class="container">
 
-    <section class="panel">
-        <h2>Repository information</h2>
-        <div class="meta-grid">
-            <div class="meta-item">
-                <div class="meta-label">Distribution</div>
-                <div class="meta-value">stable</div>
-            </div>
-            <div class="meta-item">
-                <div class="meta-label">Component</div>
-                <div class="meta-value">main</div>
-            </div>
-            <div class="meta-item">
-                <div class="meta-label">Architectures</div>
-                <div class="meta-value">all, amd64, arm64</div>
-            </div>
-        </div>
-    </section>
+<div class="box">
 
-    <section class="panel">
-        <h2>Available packages</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Version</th>
-                    <th>Architecture</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody id="packages">
-                <tr>
-                    <td colspan="4">Loading packages...</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-</main>
+<h2>Adding this repository</h2>
+
+<p>Run this one-liner to add the repo and key automatically:</p>
+
+<pre>
+curl -fsSL https://lff-linux.github.io/addrepo.sh | sudo bash
+</pre>
+
+</div>
+
+<div class="box">
+
+<h2>Repository Information</h2>
+
+<p>
+Distribution: <b>stable</b><br>
+Components: <b>main</b><br>
+Architectures:
+<b>amd64</b>,
+<b>arm64</b>,
+<b>all</b>
+</p>
+
+</div>
+
+<div class="box">
+
+<h2>Available Packages</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Version</th>
+<th>Architecture</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody id="packages">
+<tr>
+<td colspan="4">Loading packages...</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
+
+</div>
 
 <div class="footer">
-    LFF Linux Package Repository
+LFF Linux Package Repository
 </div>
 
 <script>
@@ -273,17 +174,19 @@ function parsePackages(text) {
         if (!entry.trim()) continue;
 
         const pkg = {};
-        for (const line of entry.split("\n")) {
-            const split = line.indexOf(":");
-            if (split === -1) continue;
+        let lastKey = "";
 
-            const key = line.substring(0, split).trim();
-            const value = line.substring(split + 1).trim();
+        for (const rawLine of entry.split("\n")) {
+            if (!rawLine.trim()) continue;
 
-            if (pkg[key]) {
-                pkg[key] += "\n" + value;
-            } else {
+            if (/^[A-Za-z0-9-]+:/.test(rawLine)) {
+                const split = rawLine.indexOf(":");
+                const key = rawLine.substring(0, split);
+                const value = rawLine.substring(split + 1).trim();
                 pkg[key] = value;
+                lastKey = key;
+            } else if ((rawLine.startsWith(" ") || rawLine.startsWith("\t")) && lastKey) {
+                pkg[lastKey] = (pkg[lastKey] || "") + "\n" + rawLine.trim();
             }
         }
 
@@ -293,28 +196,61 @@ function parsePackages(text) {
     return packages;
 }
 
-async function loadPackages() {
-    const seen = new Set();
-    const all = [];
+function pkgGroupKey(pkg) {
+    const name = pkg.Package || "";
+    const version = pkg.Version || "";
+    const description = pkg.Description || "";
+    return `${name}||${version}||${description}`;
+}
 
-    for (const file of packageFiles) {
-        try {
-            const response = await fetch(file, { cache: "no-store" });
-            if (!response.ok) continue;
+function mergePackages(all) {
+    const grouped = new Map();
 
-            const text = await response.text();
-            for (const pkg of parsePackages(text)) {
-                const key = `${pkg.Package || ""}|${pkg.Version || ""}|${pkg.Architecture || ""}`;
-                if (seen.has(key)) continue;
-                seen.add(key);
-                all.push(pkg);
-            }
-        } catch (e) {
-            console.log("Failed loading", file, e);
+    for (const pkg of all) {
+        const key = pkgGroupKey(pkg);
+
+        if (!grouped.has(key)) {
+            grouped.set(key, {
+                Package: pkg.Package || "",
+                Version: pkg.Version || "",
+                Description: pkg.Description || "",
+                arches: new Set(),
+                hasAll: false
+            });
+        }
+
+        const entry = grouped.get(key);
+        const arch = (pkg.Architecture || "").trim();
+
+        if (arch === "all") {
+            entry.hasAll = true;
+            entry.arches.clear();
+            entry.arches.add("all");
+        } else if (!entry.hasAll && arch) {
+            entry.arches.add(arch);
         }
     }
 
-    all.sort((a, b) => {
+    const merged = [];
+
+    for (const entry of grouped.values()) {
+        let architecture = "";
+
+        if (entry.hasAll) {
+            architecture = "all";
+        } else {
+            architecture = Array.from(entry.arches).sort().join(", ");
+        }
+
+        merged.push({
+            Package: entry.Package,
+            Version: entry.Version,
+            Architecture: architecture,
+            Description: entry.Description
+        });
+    }
+
+    merged.sort((a, b) => {
         const an = (a.Package || "").localeCompare(b.Package || "");
         if (an !== 0) return an;
         const av = (a.Version || "").localeCompare(b.Version || "");
@@ -322,27 +258,49 @@ async function loadPackages() {
         return (a.Architecture || "").localeCompare(b.Architecture || "");
     });
 
+    return merged;
+}
+
+async function loadPackages() {
+    let all = [];
+
+    for (const file of packageFiles) {
+        try {
+            const response = await fetch(file, { cache: "no-store" });
+            if (!response.ok) continue;
+
+            const text = await response.text();
+            all.push(...parsePackages(text));
+        } catch (e) {
+            console.log("Failed loading", file);
+        }
+    }
+
+    const merged = mergePackages(all);
     const table = document.getElementById("packages");
     table.innerHTML = "";
 
-    if (all.length === 0) {
+    if (merged.length === 0) {
         table.innerHTML = "<tr><td colspan='4'>No packages found</td></tr>";
         return;
     }
 
-    for (const pkg of all) {
+    for (const pkg of merged) {
         const row = document.createElement("tr");
+
         row.innerHTML = `
-            <td class="pkg-name">${pkg.Package || ""}</td>
-            <td>${pkg.Version || ""}</td>
-            <td>${pkg.Architecture || ""}</td>
-            <td>${pkg.Description || ""}</td>
+        <td>${pkg.Package || ""}</td>
+        <td>${pkg.Version || ""}</td>
+        <td>${pkg.Architecture || ""}</td>
+        <td>${pkg.Description || ""}</td>
         `;
+
         table.appendChild(row);
     }
 }
 
 loadPackages();
 </script>
+
 </body>
 </html>
