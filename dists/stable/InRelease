@@ -1,26 +1,36 @@
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA512
 
-Origin: LFF Linux
-Label: LFF Linux
-Suite: stable
-Codename: stable
-Architectures: amd64 arm64 all
-Components: main
-Description: LFF Linux Package Repository
+Date: Wed, 15 Jul 2026 17:12:23 +0000
+MD5Sum:
+ 95ff3655548f2a8d3696ff86885a5caa               38 Release
+ 44c81ec6fd314c20e443fcd235b29e76              510 main/binary-all/Packages
+ 72b20c3bd78d6e5c3a6b7b53114ea375              389 main/binary-all/Packages.gz
+SHA1:
+ 974373fd6e972b800556aa8a597a699c9cd353d4               38 Release
+ 9641e22b2316d2ed5c6a3cf9098a89c069950973              510 main/binary-all/Packages
+ 2997918a8872d13478b63a785e64f50e53bc75ff              389 main/binary-all/Packages.gz
+SHA256:
+ 8377d42585fcbd929147f03dd4e4c2566772ca4a6011406937680096371b074e               38 Release
+ fb3b91a22d464a58f2024be66697f70e1a70b7c77ede6aeb77dbeeca975365ea              510 main/binary-all/Packages
+ 685ae46aa5c0c861fd57b79a7311058f5d1b7184f9fce690609b08bce10d9727              389 main/binary-all/Packages.gz
+SHA512:
+ 8e71d638c5df2eb5cee23a77f382ff2a3195f4f645f864e402da72e546e4c85059f4738fc40954cf3daa7c4cca3076a500ee582fcdd6416b4ec97fda672d2144               38 Release
+ 1e435662b1628d0f3d1cbdcd6e7b8f8dca642beb543bbe3761c9e90fad9502a4acd63c6b191d701e6b4139fca54564f37305028b97191d2361c42f3826365bdc              510 main/binary-all/Packages
+ 5408e8044ed1e49fe7bbe978c47de3d4e2017543cf84d1d2b93105dd620998bf81ea817358f80839da8d3abe9e8181ebd573f95d088f1d725b5ae41417f027ac              389 main/binary-all/Packages.gz
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEExehJRTLl+sPfRYmtOSAGk+tvU2sFAmpXvpoACgkQOSAGk+tv
-U2s3/A//Rw1iJtvBFwQP/2/ttXlnhEu6Zo1eYqlVx7y6sk7lT/E0Mq1kbjSIZzm2
-jqf8+s10DZnaJhxBayiM1u5PqgTZOh/0Tc5wGhAPEuKSdgt+nBR7PX0lYgXwV+9H
-cF+0clT1WVbd1QHEbwSgBOmPExp53mnnYiNhlSDMOaf+3SJxtgkh/KxLJSbXYg0s
-o8Cjt4vMIiT8jFpjyvc0yuAZQzgUkttpRggEI0pkPx0+0tDMrNFBQDk8YHkGwnEE
-XUEg8eAStyN5b+LYqaHYgZQUUr1K4MWv7kOUmBVsN71HLOHDBnmdJbgbwQ4JV4qx
-VCrqnc1gcMssGf/Mh+QDxwZQWfBignIUx5rPFcoezdG6ue6bDOc87vcx1eZ1LQF5
-FRJF21KWXbGb7gjZgTgNGHDVyauYDSLMBFWIyeDSIqN4qH/LOuVVpLtVFitomRMU
-TQ35Y3LtpxzXQ31bAzgFNKsLzX7U2ZXKHxga4C+lTMqvSx8Rz2YLvsCLfvRjTACD
-8ObxmqVWnY27AMQjfrI7G1fSCEAF7XFVguWyLxnAa21cauJWYncd6miEmVKP6+rJ
-JJmILSi+V3wPYl0P3XYGrW4R1TWt4CxTlkrtJiSLvOq96oA/6hn7nDiikiEWyGfE
-YguUhrbfo4y7mquzFzUwmFDfehUNR+7+95josntjFPbQ5/tDTzc=
-=s0XS
+iQIzBAEBCgAdFiEExehJRTLl+sPfRYmtOSAGk+tvU2sFAmpXv44ACgkQOSAGk+tv
+U2sbxw/9HUT5+1LYXviS8UD++ZNSbidmxRVsFox6HcAG4COQtpFGGK/yMqUEKj5h
+FENiIDeai7WFu3LlyghJ1GOGKlp+5Yf8HIvT3r4y8Ya5M8ArODeskNGAi7C0iFQR
+YgRqDy/Xk/pPYJwYLxlXy9EoepDPcnx3w0JL4ZR3AW6oe4dtoxtaBS+URZntIoqP
+63xnt6Lp1CgmSo/xfTpgd9NQVxwRVkDGjc2H7/SPdtWW5kuIQHOyOi58Ko3XjjwJ
+aZYGd8YtotFmWbGLwtUMa7A/f5jxhQNaupwJ+tMDeNkQy5syFOh8Q/2dW1jUJ+qY
+S++NpiRBo/U1JkP+hgaUgU6TNk843gcsS0tv/Dwt94Jll2Niu6eHaRHqJVrS3K+4
+GpWaMbBqD0lmS9vGOyeWRovpLLQljKBq/2YvizgbmELUGSMzMHhvmJrV6xEGWtkR
+L+S478P0VQWwBijM9JICdAfraBcGgjtx830YhSGPi1cU+l60FUznSN1zjpoT/PUd
+wf8XfXsXTaIF6/CtxJtdJ63Fepsh0yvbu8rHgTi+BlxpwIdKCokgoeb5EycynQn4
+oph6f4BRhVblUFe1L2e+cxSBRaJ9UvbRcYKFw3MONZcE0F0lryM3qGZyajsnSFJy
+2Hkk/n0LqZratsJZorjq0t3R7JHEqAZJtkOeRzQ86QUb086GAAQ=
+=+JXP
 -----END PGP SIGNATURE-----
