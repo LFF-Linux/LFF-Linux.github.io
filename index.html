@@ -111,6 +111,12 @@ tr:hover {
 curl -fsSL https://lff-linux.github.io/addrepo.sh | sudo bash
 </pre>
 
+<p>Then run:</p>
+
+<pre>
+sudo apt update
+</pre>
+
 </div>
 
 <div class="box">
@@ -261,6 +267,15 @@ function mergePackages(all) {
     return merged;
 }
 
+function formatDescription(desc) {
+    const lines = (desc || "").split("\n").map(s => s.trim()).filter(Boolean);
+    if (lines.length === 0) return "";
+
+    if (lines.length === 1) return lines[0];
+
+    return `${lines[0]} - ${lines.slice(1).join(" ")}`;
+}
+
 async function loadPackages() {
     let all = [];
 
@@ -292,7 +307,7 @@ async function loadPackages() {
         <td>${pkg.Package || ""}</td>
         <td>${pkg.Version || ""}</td>
         <td>${pkg.Architecture || ""}</td>
-        <td>${pkg.Description || ""}</td>
+        <td>${formatDescription(pkg.Description || "")}</td>
         `;
 
         table.appendChild(row);
