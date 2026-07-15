@@ -1,0 +1,7 @@
+Origin: LFF Linux
+Label: LFF Linux
+Suite: stable
+Codename: stable
+Architectures: amd64 arm64 all
+Components: main
+Description: LFF Linux Package Repository
