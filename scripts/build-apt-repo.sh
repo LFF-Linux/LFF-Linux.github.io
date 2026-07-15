@@ -22,6 +22,7 @@ trap 'rm -rf "$stage_root"' EXIT
 
 mkdir -p "${stage_root}/binary-all" "${stage_root}/binary-amd64" "${stage_root}/binary-arm64"
 
+echo "Selecting newest package per package/architecture..."
 python3 - "$repo_root" "$stage_root" <<'PY'
 import subprocess
 import sys
@@ -31,9 +32,7 @@ repo_root = Path(sys.argv[1])
 stage_root = Path(sys.argv[2])
 pool = repo_root / "pool" / "main"
 
-deb_files = sorted(pool.glob("*.deb"))
-
-def read_fields(path: Path):
+def deb_fields(path: Path):
     out = subprocess.check_output(
         ["dpkg-deb", "-f", str(path), "Package", "Version", "Architecture"],
         text=True,
@@ -43,45 +42,47 @@ def read_fields(path: Path):
         if ":" in line:
             k, v = line.split(":", 1)
             data[k.strip()] = v.strip()
-    return data.get("Package", ""), data.get("Version", ""), data.get("Architecture", "")
+    return data["Package"], data["Version"], data["Architecture"]
 
-def version_gt(a: str, b: str) -> bool:
-    if a == b:
-        return False
+def ver_gt(a: str, b: str) -> bool:
     return subprocess.run(
         ["dpkg", "--compare-versions", a, "gt", b],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     ).returncode == 0
 
-best = {}  # (package, arch) -> (version, path)
+# Keep highest version for each (Package, Architecture)
+best = {}
 
-for deb in deb_files:
-    pkg, ver, arch = read_fields(deb)
-    if not pkg or not ver or not arch:
+for deb in sorted(pool.glob("*.deb")):
+    try:
+        pkg, ver, arch = deb_fields(deb)
+    except Exception:
         continue
 
     key = (pkg, arch)
-    if key not in best or version_gt(ver, best[key][0]):
+    current = best.get(key)
+    if current is None or ver_gt(ver, current[0]):
         best[key] = (ver, deb)
 
-for (pkg, arch), (_, deb) in best.items():
+# Copy only winners into staged dirs
+for (pkg, arch), (ver, deb) in sorted(best.items()):
     if arch == "all":
-        dest = stage_root / "binary-all" / deb.name
+        dest_dir = stage_root / "binary-all"
     elif arch == "amd64":
-        dest = stage_root / "binary-amd64" / deb.name
+        dest_dir = stage_root / "binary-amd64"
     elif arch == "arm64":
-        dest = stage_root / "binary-arm64" / deb.name
+        dest_dir = stage_root / "binary-arm64"
     else:
+        # Ignore any other architectures for this repo
         continue
 
+    dest = dest_dir / deb.name
     dest.write_bytes(deb.read_bytes())
+    print(f"keep {pkg} {ver} {arch}: {deb.name}")
 PY
 
-if [ -f dists/stable/release.conf ]; then
-    :
-else
-    cat > dists/stable/release.conf <<'EOF'
+cat > "dists/${suite}/release.conf" <<'EOF'
 APT::FTPArchive::Release::Origin "LFF Linux";
 APT::FTPArchive::Release::Label "LFF Linux";
 APT::FTPArchive::Release::Suite "stable";
@@ -90,7 +91,6 @@ APT::FTPArchive::Release::Architectures "all amd64 arm64";
 APT::FTPArchive::Release::Components "main";
 APT::FTPArchive::Release::Description "LFF Linux Package Repository";
 EOF
-fi
 
 dpkg-scanpackages --arch all "${stage_root}/binary-all" /dev/null > "${base}/binary-all/Packages"
 dpkg-scanpackages --arch amd64 "${stage_root}/binary-amd64" /dev/null > "${base}/binary-amd64/Packages"
@@ -98,9 +98,10 @@ dpkg-scanpackages --arch arm64 "${stage_root}/binary-arm64" /dev/null > "${base}
 
 gzip -kf "${base}/binary-all/Packages"
 gzip -kf "${base}/binary-amd64/Packages"
+gzip -kf "${base}/binary-amd64/Packages" 2>/dev/null || true
 gzip -kf "${base}/binary-arm64/Packages"
 
-apt-ftparchive -c dists/stable/release.conf release dists/stable > dists/stable/Release
+apt-ftparchive -c "dists/${suite}/release.conf" release "dists/${suite}" > "dists/${suite}/Release"
 
 if [[ -z "${GPG_PRIVATE_KEY:-}" || -z "${GPG_KEY_ID:-}" || -z "${GPG_PASSPHRASE:-}" ]]; then
     echo "Error: missing one or more GPG secrets: GPG_PRIVATE_KEY, GPG_KEY_ID, GPG_PASSPHRASE" >&2
@@ -114,8 +115,7 @@ trap 'rm -rf "$GNUPGHOME"' EXIT
 
 printf '%s' "$GPG_PRIVATE_KEY" | gpg --batch --import >/dev/null 2>&1
 
-cd dists/stable
-
+cd "dists/${suite}"
 rm -f InRelease Release.gpg
 
 gpg --batch --yes \
