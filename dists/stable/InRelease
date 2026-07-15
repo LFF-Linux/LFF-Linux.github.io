@@ -1,0 +1,26 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: LFF Linux
+Label: LFF Linux
+Suite: stable
+Codename: stable
+Architectures: amd64 arm64 all
+Components: main
+Description: LFF Linux Package Repository
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEExehJRTLl+sPfRYmtOSAGk+tvU2sFAmpXvpoACgkQOSAGk+tv
+U2s3/A//Rw1iJtvBFwQP/2/ttXlnhEu6Zo1eYqlVx7y6sk7lT/E0Mq1kbjSIZzm2
+jqf8+s10DZnaJhxBayiM1u5PqgTZOh/0Tc5wGhAPEuKSdgt+nBR7PX0lYgXwV+9H
+cF+0clT1WVbd1QHEbwSgBOmPExp53mnnYiNhlSDMOaf+3SJxtgkh/KxLJSbXYg0s
+o8Cjt4vMIiT8jFpjyvc0yuAZQzgUkttpRggEI0pkPx0+0tDMrNFBQDk8YHkGwnEE
+XUEg8eAStyN5b+LYqaHYgZQUUr1K4MWv7kOUmBVsN71HLOHDBnmdJbgbwQ4JV4qx
+VCrqnc1gcMssGf/Mh+QDxwZQWfBignIUx5rPFcoezdG6ue6bDOc87vcx1eZ1LQF5
+FRJF21KWXbGb7gjZgTgNGHDVyauYDSLMBFWIyeDSIqN4qH/LOuVVpLtVFitomRMU
+TQ35Y3LtpxzXQ31bAzgFNKsLzX7U2ZXKHxga4C+lTMqvSx8Rz2YLvsCLfvRjTACD
+8ObxmqVWnY27AMQjfrI7G1fSCEAF7XFVguWyLxnAa21cauJWYncd6miEmVKP6+rJ
+JJmILSi+V3wPYl0P3XYGrW4R1TWt4CxTlkrtJiSLvOq96oA/6hn7nDiikiEWyGfE
+YguUhrbfo4y7mquzFzUwmFDfehUNR+7+95josntjFPbQ5/tDTzc=
+=s0XS
+-----END PGP SIGNATURE-----
