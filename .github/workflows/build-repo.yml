@@ -22,6 +22,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,44 +36,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y dpkg-dev apt-utils gnupg
 
-      - name: Build repository metadata
+      - name: Build repository and sign if secrets are present
         run: bash scripts/build-apt-repo.sh
 
-      - name: Import GPG private key
-        if: ${{ secrets.GPG_PRIVATE_KEY != '' }}
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-        run: |
-          export GNUPGHOME="$RUNNER_TEMP/gnupg"
-          mkdir -p "$GNUPGHOME"
-          chmod 700 "$GNUPGHOME"
-          printf '%s' "$GPG_PRIVATE_KEY" | gpg --batch --import
-
-      - name: Sign Release
-        if: ${{ secrets.GPG_PRIVATE_KEY != '' }}
-        env:
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: |
-          export GNUPGHOME="$RUNNER_TEMP/gnupg"
-          cd dists/stable
-          gpg --batch --yes --pinentry-mode loopback \
-              --passphrase "$GPG_PASSPHRASE" \
-              --default-key "$GPG_KEY_ID" \
-              -abs -o Release.gpg Release
-
-          gpg --batch --yes --pinentry-mode loopback \
-              --passphrase "$GPG_PASSPHRASE" \
-              --default-key "$GPG_KEY_ID" \
-              --clearsign -o InRelease Release
-
-      - name: Stage Pages content
+      - name: Prepare Pages artifact
         run: |
           rm -rf public
           mkdir -p public
           cp -a pool public/
           cp -a dists public/
-          if [ -d keys ]; then cp -a keys public/; fi
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
