@@ -1,15 +1,14 @@
 Package: lpm
-Version: 1.1.0
+Version: 1.1.1
 Architecture: all
 Maintainer: LFF Linux - CTHQ cthqco@outlook.com
-Depends: python3
-Filename: pool/main/lpm_1.1.0_all.deb
-Size: 6132
-MD5sum: d76e100cf5c3466d211f5be79a830822
-SHA1: 3e71e8715d54abca18832d0903b0f253926db76d
-SHA256: b0c92165ed501e6c48071bd4f137dd441b1efe415361189520786abd2d79435e
+Depends: python3, python3-requests
+Filename: dists/stable/main/binary-all/lpm_1.1.1_all.deb
+Size: 6110
+MD5sum: 93aa7207f6e5d82adce08da3255d7a61
+SHA1: a7371f8e0a6ca7e9e43fe2440082d7a6fbbbfde5
+SHA256: 8e1ee11cc520a5e1af33be0ae7722a523d4a07cf5b9ec738b2398811e14dc21d
 Section: other
 Priority: optional
-Description: Lightweight package manager written in Python
- A custom package manager with basic package manipulation and a (currently) tiny package list.
+Description: Lightweight custom package manager written in Python
 
