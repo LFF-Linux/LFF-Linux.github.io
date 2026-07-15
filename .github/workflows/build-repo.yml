@@ -36,15 +36,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y dpkg-dev apt-utils gnupg
 
-      - name: Build repository and sign if secrets are present
+      - name: Build repository metadata and signatures
         run: bash scripts/build-apt-repo.sh
 
-      - name: Prepare Pages artifact
+      - name: Stage Pages content
         run: |
           rm -rf public
           mkdir -p public
+          touch public/.nojekyll
           cp -a pool public/
           cp -a dists public/
+          if [ -d keys ]; then cp -a keys public/; fi
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
